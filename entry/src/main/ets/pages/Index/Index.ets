@@ -47,7 +47,7 @@ struct Index {
             Text("消息组件")
           }
           else {
-            My()
+            My() //todo 获取不到个人信息
           }
         }
         .tabBar(this.getTabBar(item))
