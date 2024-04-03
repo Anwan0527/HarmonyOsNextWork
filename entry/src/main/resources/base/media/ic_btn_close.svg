@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 14 14"
+     class="design-iconfont">
+    <g
+        stroke="#2A2929"
+        stroke-width="2"
+        fill="none"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+        <path
+            d="M9.90492249 9.89816284L0 0"
+            transform="translate(1.883072 2.10154)"/>
+        <path
+            transform="rotate(-90 6.941387 5.061695)"
+            d="M9.90154266 9.90154266L-0.00337982 0.00337982"/>
+    </g>
+</svg>

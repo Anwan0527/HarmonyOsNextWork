@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 31 31"
+     class="design-iconfont">
+    <g
+        stroke="#979797"
+        stroke-linecap="round"
+        stroke-width="2"
+        fill="none"
+        fill-rule="evenodd">
+        <path
+            d="M0.5 13L26.5 13"
+            transform="translate(2.335 2.042558)"/>
+        <path
+            d="M13.5 0L13.5 26"
+            transform="translate(2.335 2.042558)"/>
+    </g>
+</svg>
