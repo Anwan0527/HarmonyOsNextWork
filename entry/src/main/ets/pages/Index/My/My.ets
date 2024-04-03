@@ -1,8 +1,17 @@
 import { getUserInfo, getUserTaskInfo } from '../../../api'
 import { HmCard, HmCardItem } from '../../../components'
 
-import { UserInfo, UserInfoModel, UserTaskInfo, UserTaskInfoModel, UserTaskInfoParamsModel } from '../../../models'
+import {
+  ResponseData,
+  UserInfo,
+  UserInfoModel,
+  UserTaskInfo,
+  UserTaskInfoModel,
+  UserTaskInfoParamsModel
+} from '../../../models'
 import router from '@ohos.router'
+import { TOKEN_KEY } from '../../../constants'
+import { http } from '@kit.NetworkKit'
 
 
 @Preview
@@ -19,7 +28,9 @@ struct My {
 
   aboutToAppear() {
     this.getUserInfo()
-    this.getUserTaskInfo()
+    // AlertDialog.show({
+    //   message: JSON.stringify(AppStorage.get(TOKEN_KEY))
+    // })
   }
 
   async getUserTaskInfo() {
@@ -27,11 +38,21 @@ struct My {
   }
 
   async getUserInfo() {
-    this.userInfo = await getUserInfo()
-    AlertDialog.show({
-      message: JSON.stringify(this.userInfo)
-    }
-    )
+    const req = http.createHttp()
+    req.request("https://slwl-api.itheima.net/driver/users", {
+      method: http.RequestMethod.GET,
+      header: {
+        Authorization: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0MDQwODA5NTAyMzQ5MTMxNTE0IiwiYWNjb3VudCI6InRlc3QwMDEiLCJuYW1lIjoi5Y-45py6Iiwib3JnaWQiOjEwMjQ5OTA3MjY1MTk0MDM0NTcsInN0YXRpb25pZCI6MTAyNDcwNzUzNTg5MTk0NDc2OSwiYWRtaW5pc3RyYXRvciI6ZmFsc2UsImV4cCI6MTcxMjYxNDUzOX0.yfYpg-JTilGyLEf2Af-sIACUUPNEyvgkQS8WwORHXZu1Ho2vIdFeztIx2S3DREeU1fdPbsCDFbOUd7CKByhXew"
+      }
+    })
+      .then(res => {
+        const userinfo = JSON.parse(res.result.toString()) as ResponseData<UserInfoModel>
+        this.userInfo = userinfo.data as UserInfoModel
+        // AlertDialog.show({
+        //   message: JSON.stringify(userinfo)
+        // })
+      })
+
   }
 
   build() {

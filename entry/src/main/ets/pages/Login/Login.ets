@@ -4,7 +4,7 @@ import { TOKEN_KEY } from '../../constants'
 import router from '@ohos.router'
 import { UserSettingClass } from '../../utils'
 
-PersistentStorage.PersistProp(TOKEN_KEY, "")
+PersistentStorage.persistProp(TOKEN_KEY, "")
 
 @Entry
 @Component
@@ -44,10 +44,12 @@ struct Login {
       router.replaceUrl({
         url: 'pages/Index/Index'
       })
-      AlertDialog.show({
-        message: JSON.stringify(token)
-      })
+      console.log("Token", token)
+      // AlertDialog.show({
+      //   message: JSON.stringify(token)
+      // })
     } catch (error) {
+      // console.log("原因", JSON.stringify(error))
 
     } finally {
       this.showLoading = false

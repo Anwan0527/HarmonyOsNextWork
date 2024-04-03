@@ -2,7 +2,7 @@ import { TOKEN_KEY } from '../../constants'
 import { TabClass } from '../../models'
 import My from './My/My'
 
-PersistentStorage.PersistProp(TOKEN_KEY, "")
+PersistentStorage.persistProp(TOKEN_KEY, "")
 
 @Entry
 @Component

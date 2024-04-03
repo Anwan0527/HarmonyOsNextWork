@@ -19,6 +19,9 @@ async function requestHttp<T>(url: string = "", method: http.RequestMethod = htt
         return ""
       }).join('&')
     }
+    // AlertDialog.show({
+    //   message: urlStr
+    // })
   }
   // 设置请求头
   const config: http.HttpRequestOptions = {
@@ -32,6 +35,9 @@ async function requestHttp<T>(url: string = "", method: http.RequestMethod = htt
   }
   try {
     const res = await httpRequest.request(urlStr, config)
+    // AlertDialog.show({
+    //   message: res.responseCode.toString()
+    // })
     if (res.responseCode === 401) {
       promptAction.showToast({ message: 'token超时' })
       AppStorage.set(TOKEN_KEY, "") // 删除token 这里为什么不用Delete
@@ -48,6 +54,9 @@ async function requestHttp<T>(url: string = "", method: http.RequestMethod = htt
       const result = JSON.parse(res.result as string) as ResponseData<T>
       if (result.code === 200) {
         // 执行成功
+        // AlertDialog.show({
+        //   message: "执行成功"
+        // })
         return result.data as T // 直接返回数据
       }
       else {
@@ -56,6 +65,9 @@ async function requestHttp<T>(url: string = "", method: http.RequestMethod = htt
       }
     }
   } catch (error) {
+    AlertDialog.show({
+      message: error
+    })
     promptAction.showToast({ message: error.message })
     return Promise.reject(error)
   }
@@ -67,7 +79,9 @@ async function requestHttp<T>(url: string = "", method: http.RequestMethod = htt
 // 导出一个类的静态方法
 export class Request {
   static get<T>(url: string, data?: object): Promise<T> {
+    // console.log("url", url)
     return requestHttp<T>(url, http.RequestMethod.GET, data)
+
   }
 
   static post<T>(url: string, data?: object): Promise<T> {

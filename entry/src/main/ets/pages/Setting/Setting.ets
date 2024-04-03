@@ -27,7 +27,7 @@ struct Setting {
 
   logout() {
     // 删除token
-    AppStorage.Set<string>(TOKEN_KEY, "")
+    AppStorage.set<string>(TOKEN_KEY, "")
     new UserSettingClass(getContext(this)).setUserToken("")
     router.replaceUrl({
       url: 'pages/Login/Login'

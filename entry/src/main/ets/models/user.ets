@@ -6,6 +6,7 @@ export interface LoginForm {
   password: string;
 }
 
+
 export interface UserInfo {
   /** 头像 */
   avatar: string;
@@ -61,6 +62,7 @@ export class LoginFormModel implements LoginForm {
     this.password = model.password
   }
 }
+
 export class UserInfoModel implements UserInfo {
   avatar: string = ''
   name: string = ''
@@ -74,6 +76,7 @@ export class UserInfoModel implements UserInfo {
     this.phone = model.phone
   }
 }
+
 export class UserTaskInfoModel implements UserTaskInfo {
   completedAmounts: number = 0
   dailyMileage: DailyMileage[] = []
@@ -87,6 +90,7 @@ export class UserTaskInfoModel implements UserTaskInfo {
     this.transportMileage = model.transportMileage
   }
 }
+
 export class DailyMileageModel implements DailyMileage {
   dateTime: string | null = null
   mileage: number | null = null
@@ -96,6 +100,7 @@ export class DailyMileageModel implements DailyMileage {
     this.mileage = model.mileage
   }
 }
+
 export class UserTaskInfoParamsModel implements UserTaskInfoParams {
   month: string = ''
   year: string = ''

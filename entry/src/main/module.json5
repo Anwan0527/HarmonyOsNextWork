@@ -17,9 +17,9 @@
         "name": "EntryAbility",
         "srcEntry": "./ets/entryability/EntryAbility.ets",
         "description": "$string:EntryAbility_desc",
-        "icon": "$media:layered_image",
+        "icon": "$media:icon",
         "label": "$string:EntryAbility_label",
-        "startWindowIcon": "$media:icon",
+        "startWindowIcon": "$media:startIcon",
         "startWindowBackground": "$color:start_window_background",
         "exported": true,
         "skills": [
@@ -34,9 +34,9 @@
         ]
       }
     ],
-    "requestPermissions": [
+    "requestPermissions": [//申请基础网络权限
       {
-        "name": "ohos.permission.INTERNET",
+        "name":"ohos.permission.INTERNET",
       }
     ]
   }

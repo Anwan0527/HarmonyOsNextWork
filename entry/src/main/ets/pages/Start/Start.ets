@@ -3,7 +3,7 @@ import { UserSettingClass } from '../../utils'
 import router from '@ohos.router'
 import { TOKEN_KEY } from '../../constants'
 
-PersistentStorage.PersistProp(TOKEN_KEY, "")
+PersistentStorage.persistProp(TOKEN_KEY, "")
 
 @Entry
 @Component
