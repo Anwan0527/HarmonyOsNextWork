@@ -17,6 +17,7 @@ import { http } from '@kit.NetworkKit'
 @Preview
 @Component
 struct My {
+  @State token: string = ''
   @State //获取个人信息
   userInfo: UserInfoModel = new UserInfoModel({} as UserInfo)
   @State //获取任务数据
@@ -27,6 +28,7 @@ struct My {
   })
 
   aboutToAppear() {
+    this.token = AppStorage.get(TOKEN_KEY)!
     this.getUserInfo()
     // AlertDialog.show({
     //   message: JSON.stringify(AppStorage.get(TOKEN_KEY))
@@ -42,7 +44,8 @@ struct My {
     req.request("https://slwl-api.itheima.net/driver/users", {
       method: http.RequestMethod.GET,
       header: {
-        Authorization: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0MDQwODA5NTAyMzQ5MTMxNTE0IiwiYWNjb3VudCI6InRlc3QwMDEiLCJuYW1lIjoi5Y-45py6Iiwib3JnaWQiOjEwMjQ5OTA3MjY1MTk0MDM0NTcsInN0YXRpb25pZCI6MTAyNDcwNzUzNTg5MTk0NDc2OSwiYWRtaW5pc3RyYXRvciI6ZmFsc2UsImV4cCI6MTcxMjYxNDUzOX0.yfYpg-JTilGyLEf2Af-sIACUUPNEyvgkQS8WwORHXZu1Ho2vIdFeztIx2S3DREeU1fdPbsCDFbOUd7CKByhXew"
+        // Authorization: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0MDQwODA5NTAyMzQ5MTMxNTE0IiwiYWNjb3VudCI6InRlc3QwMDEiLCJuYW1lIjoi5Y-45py6Iiwib3JnaWQiOjEwMjQ5OTA3MjY1MTk0MDM0NTcsInN0YXRpb25pZCI6MTAyNDcwNzUzNTg5MTk0NDc2OSwiYWRtaW5pc3RyYXRvciI6ZmFsc2UsImV4cCI6MTcxMjYxNDUzOX0.yfYpg-JTilGyLEf2Af-sIACUUPNEyvgkQS8WwORHXZu1Ho2vIdFeztIx2S3DREeU1fdPbsCDFbOUd7CKByhXew"
+        Authorization: this.token
       }
     })
       .then(res => {
