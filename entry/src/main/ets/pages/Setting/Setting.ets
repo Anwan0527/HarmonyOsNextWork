@@ -29,6 +29,9 @@ struct Setting {
     // 删除token
     AppStorage.set<string>(TOKEN_KEY, "")
     new UserSettingClass(getContext(this)).setUserToken("")
+    // AlertDialog.show({
+    //   message: TOKEN_KEY
+    // })
     router.replaceUrl({
       url: 'pages/Login/Login'
     })

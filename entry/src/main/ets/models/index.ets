@@ -4,6 +4,8 @@ export * from './user'
 
 export * from './tab'
 
+export * from './task'
+
 export class ResponseData<T> {
   code: number = 0
   msg: string = ""
