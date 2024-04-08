@@ -30,13 +30,30 @@ struct My {
   aboutToAppear() {
     this.token = AppStorage.get(TOKEN_KEY)!
     this.getUserInfo()
+    this.getUserTaskInfo()
     // AlertDialog.show({
     //   message: JSON.stringify(AppStorage.get(TOKEN_KEY))
     // })
   }
 
   async getUserTaskInfo() {
-    this.userTaskInfo = await getUserTaskInfo(this.queryTaskParams)
+    // this.userTaskInfo = await getUserTaskInfo(this.queryTaskParams)
+    const req = http.createHttp()
+    req.request("https://slwl-api.itheima.net/driver/users/taskReport?month=" + this.queryTaskParams.month + "&year=" + this.queryTaskParams.year, {
+      method: http.RequestMethod.GET,
+      header: {
+        // Authorization: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0MDQwODA5NTAyMzQ5MTMxNTE0IiwiYWNjb3VudCI6InRlc3QwMDEiLCJuYW1lIjoi5Y-45py6Iiwib3JnaWQiOjEwMjQ5OTA3MjY1MTk0MDM0NTcsInN0YXRpb25pZCI6MTAyNDcwNzUzNTg5MTk0NDc2OSwiYWRtaW5pc3RyYXRvciI6ZmFsc2UsImV4cCI6MTcxMjYxNDUzOX0.yfYpg-JTilGyLEf2Af-sIACUUPNEyvgkQS8WwORHXZu1Ho2vIdFeztIx2S3DREeU1fdPbsCDFbOUd7CKByhXew"
+        Authorization: this.token
+      }
+    })
+      .then(res => {
+        const usertaskinfo = JSON.parse(res.result.toString()) as ResponseData<UserTaskInfoModel>
+        // AlertDialog.show({
+        //   message: JSON.stringify(res.result.toString())
+        // })
+        this.userTaskInfo = usertaskinfo.data as UserTaskInfoModel
+
+      })
   }
 
   async getUserInfo() {
