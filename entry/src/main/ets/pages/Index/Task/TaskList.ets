@@ -11,8 +11,7 @@ struct TaskList {
     status: TaskTypeEnum.Waiting,
     page: 1,
     pageSize: 5,
-    endTime: "2024-04-09",
-    startTime: "2022-06-12"
+
   } as TaskListParams)
   @State
   taskListData: TaskInfoItem[] = []
@@ -29,7 +28,7 @@ struct TaskList {
     // this.taskListData = result.items
     // ---------- 以下为新代码 -------------
     const req = http.createHttp()
-    req.request(`https://slwl-api.itheima.net/driver/tasks/list?endTime=${this.queryParams.endTime}&page=${this.queryParams.page}&pageSize=${this.queryParams.pageSize}&startTime=${this.queryParams.startTime}&status=${this.queryParams.status}`, {
+    req.request(`https://slwl-api.itheima.net/driver/tasks/list?page=${this.queryParams.page}&pageSize=${this.queryParams.pageSize}&status=${this.queryParams.status}`, {
       method: http.RequestMethod.GET,
       header: {
         // Authorization: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0MDQwODA5NTAyMzQ5MTMxNTE0IiwiYWNjb3VudCI6InRlc3QwMDEiLCJuYW1lIjoi5Y-45py6Iiwib3JnaWQiOjEwMjQ5OTA3MjY1MTk0MDM0NTcsInN0YXRpb25pZCI6MTAyNDcwNzUzNTg5MTk0NDc2OSwiYWRtaW5pc3RyYXRvciI6ZmFsc2UsImV4cCI6MTcxMjYxNDUzOX0.yfYpg-JTilGyLEf2Af-sIACUUPNEyvgkQS8WwORHXZu1Ho2vIdFeztIx2S3DREeU1fdPbsCDFbOUd7CKByhXew"
