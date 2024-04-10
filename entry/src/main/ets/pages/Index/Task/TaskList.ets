@@ -1,7 +1,16 @@
 import { getTaskList } from '../../../api/task'
-import { TaskInfoItem, TaskListData, TaskListParams, TaskListParamsModel, TaskTypeEnum } from '../../../models'
+import {
+  ResponseData,
+  TaskInfoItem,
+  TaskInfoItemModel,
+  TaskListData,
+  TaskListParams,
+  TaskListParamsModel,
+  TaskTypeEnum
+} from '../../../models'
 import { http } from '@kit.NetworkKit'
 import { TOKEN_KEY } from '../../../constants'
+import TaskItemCard from './TaskItemCard'
 
 @Preview
 @Component
@@ -38,8 +47,8 @@ struct TaskList {
       //   message: JSON.stringify(result)
       // })
       .then(res => {
-        const TaskListRes = JSON.parse(res.result.toString()) as TaskListData
-        this.taskListData = TaskListRes.items
+        const TaskListRes = JSON.parse(res.result.toString()) as ResponseData<TaskListData>
+        this.taskListData = TaskListRes.data?.items!
         AlertDialog.show({
           message: JSON.stringify(res.result.toString())
         })
@@ -48,7 +57,13 @@ struct TaskList {
   }
 
   build() {
-    Text(JSON.stringify(this.taskListData))
+    List() {
+      ForEach(this.taskListData, (item: TaskInfoItemModel) => {
+        ListItem() {
+          TaskItemCard({ taskItemData: item })
+        }
+      })
+    }
   }
 }
 
