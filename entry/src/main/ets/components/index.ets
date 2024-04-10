@@ -11,3 +11,5 @@ export * from './HmLoading'
 export * from './HmList'
 
 export * from './HmToggelCard'
+
+export * from './HmUpload'

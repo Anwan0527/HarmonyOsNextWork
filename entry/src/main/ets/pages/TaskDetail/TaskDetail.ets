@@ -1,4 +1,4 @@
-import { HmNavBar, HmToggleCard } from '../../components'
+import { HmNavBar, HmToggleCard, HmUpload } from '../../components'
 import router from '@ohos.router';
 import { CommonRouterParams, ResponseData, TaskDetailInfo, TaskDetailInfoModel } from '../../models';
 
@@ -67,11 +67,25 @@ struct TaskDetail {
           HmToggleCard({ title: '运输路线' }) {
             this.getTransLineContent()
           }
+
+          HmToggleCard({ title: '提货信息' }) {
+            this.getPickUpContent()
+          }
         }.padding({
           bottom: 120
         })
       }
+
+      //底部按钮结构
+      this.getBottomBtn()
     }.backgroundColor($r('app.color.background_page')).height('100%')
+  }
+
+  //提货信息
+  @Builder
+  getPickUpContent() {
+    HmUpload({ title: '请拍照上传回单凭证' })
+    HmUpload({ title: '请拍照上传货品照片' })
   }
 
   @Builder
@@ -191,6 +205,34 @@ struct TaskDetail {
       left: 60,
       right: 60
     })
+  }
+
+  // 底部按钮结构
+  @Builder
+  getBottomBtn() {
+    //已完成不显示任何按钮
+    Row() {
+      Button("延迟收货", { type: ButtonType.Capsule })
+        .backgroundColor($r('app.color.btn_gray'))
+        .fontColor($r('app.color.text_primary'))
+        .fontSize(16)
+        .height(50)
+        .width(125)
+      Button("提货", { type: ButtonType.Capsule })
+        .backgroundColor($r('app.color.primary_disabled'))
+        .fontColor($r('app.color.white'))
+        .height(50)
+        .flexGrow(1)
+        .margin({ left: 13 })
+    }
+    .width('100%')
+    .padding({ left: 15, right: 15 })
+    .height(70)
+    .justifyContent(FlexAlign.SpaceBetween)
+    .alignItems(VerticalAlign.Center)
+    .backgroundColor($r('app.color.white'))
+    .position({ y: '100%' })
+    .translate({ y: -70 })
   }
 }
 
