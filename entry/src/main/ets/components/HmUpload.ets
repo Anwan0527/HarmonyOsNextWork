@@ -3,6 +3,7 @@ import { picker } from '@kit.CoreFileKit';
 import fs from '@ohos.file.fs'
 import { util } from '@kit.ArkTS';
 import { request } from '@kit.BasicServicesKit';
+import { uploadImage } from '../api';
 
 @Component
 struct HmUpload {
@@ -38,10 +39,10 @@ struct HmUpload {
             type: 'jpg'
           })
         })
-        AlertDialog.show({
-          message: JSON.stringify(files)
-        })
-
+        // AlertDialog.show({
+        //   message: JSON.stringify(files)
+        // })
+        uploadImage(getContext(this), files)
       } catch (error) {
         AlertDialog.show({
           message: error.message

@@ -10,7 +10,7 @@ const httpRequest = http.createHttp()
 async function requestHttp<T>(url: string = "", method: http.RequestMethod = http.RequestMethod.GET, data?: object): Promise<T> {
   let urlStr = BASE_URL + url
   // 这里虽然官方文档说 get类型可以通过extraData传递过去，但是测试证明不可以-还是老老实实的自己拼接吧
-  if (method === http.RequestMethod.GET) {
+  if (method == http.RequestMethod.GET) {
     if (data && Object.keys(data).length) {
       urlStr += "?" + Object.keys(data).map(key => {
         if (data[key]) {
@@ -29,14 +29,15 @@ async function requestHttp<T>(url: string = "", method: http.RequestMethod = htt
       'Content-Type': 'application/json',
       "Authorization": AppStorage.get(TOKEN_KEY) || ""
     },
+    // method
     method,
     readTimeout: 10000, // 超时时间
-    extraData: method === http.RequestMethod.GET ? "" : data
+    extraData: method == http.RequestMethod.GET ? "" : data
   }
   try {
     const res = await httpRequest.request(urlStr, config)
     // AlertDialog.show({
-    //   message: res.responseCode.toString()
+    //   message: JSON.stringify(config)
     // })
     if (res.responseCode === 401) {
       promptAction.showToast({ message: 'token超时' })
