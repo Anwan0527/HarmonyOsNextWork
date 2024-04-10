@@ -1,6 +1,8 @@
 //上传组件
 import { picker } from '@kit.CoreFileKit';
-
+import fs from '@ohos.file.fs'
+import { util } from '@kit.ArkTS';
+import { request } from '@kit.BasicServicesKit';
 
 @Component
 struct HmUpload {
@@ -14,9 +16,40 @@ struct HmUpload {
       MIMEType: picker.PhotoViewMIMETypes.IMAGE_TYPE,
       maxSelectNumber: this.maxNumber
     })
-    AlertDialog.show({
-      message: JSON.stringify(result.photoUris)
-    })
+    if (result.photoUris?.length) {
+      try {
+        // 循环处理
+        let files: request.File[] = []
+        const addFolderName = 'wuliu'
+        const defaultDir = getContext(this).cacheDir + '/' + addFolderName // 默认路径
+        result.photoUris.forEach(url => {
+          const file = fs.openSync(url, fs.OpenMode.READ_ONLY) // 同步读取
+          const tempFileName = util.generateRandomUUID() + '.jpg' // 生成一个唯一的文件名 后面有用
+          if (!fs.listFileSync(getContext(this).cacheDir).includes(addFolderName)) {
+            fs.mkdirSync(defaultDir)
+          }
+          const fileUri = defaultDir + '/' + tempFileName
+          fs.copyFileSync(file.fd, fileUri) // 同步拷贝
+          files.push({
+            filename: tempFileName,
+            name: 'file',
+            uri: `internal://cache/${addFolderName}/${tempFileName}`,
+            // 这里说明一下 internal协议会自动获取当前上下文协议的沙箱路径
+            type: 'jpg'
+          })
+        })
+        AlertDialog.show({
+          message: JSON.stringify(files)
+        })
+
+      } catch (error) {
+        AlertDialog.show({
+          message: error.message
+        })
+      }
+
+    }
+
   }
 
   build() {
