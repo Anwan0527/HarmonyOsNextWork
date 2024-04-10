@@ -30,7 +30,7 @@ struct Start {
     this.timer = setInterval(() => {
       if (this.adObj.adTime === 0) {
         clearInterval(this.timer)
-        router.replaceUrl({ url: 'pages/Index/Index' })
+        router.replaceUrl({ url: 'pages/Login/Login' })
         return
       }
       this.adObj.adTime--

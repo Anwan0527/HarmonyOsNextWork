@@ -31,6 +31,9 @@ export default class EntryAbility extends UIAbility {
       windowStage.loadContent('pages/Start/Start'); // 跳转广告页
     } else {
       const token = await userSetting.getUserToken()
+      // AlertDialog.show({
+      //   message: JSON.stringify(token)
+      // })
       if (token) {
         // 有token
         windowStage.loadContent('pages/Index/Index'); //跳转首页
