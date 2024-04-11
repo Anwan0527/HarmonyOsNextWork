@@ -25,10 +25,12 @@ struct HmUpload {
         const defaultDir = getContext(this).cacheDir + '/' + addFolderName // 默认路径
         result.photoUris.forEach(url => {
           const file = fs.openSync(url, fs.OpenMode.READ_ONLY) // 同步读取
+
           const tempFileName = util.generateRandomUUID() + '.jpg' // 生成一个唯一的文件名 后面有用
           if (!fs.listFileSync(getContext(this).cacheDir).includes(addFolderName)) {
             fs.mkdirSync(defaultDir)
           }
+
           const fileUri = defaultDir + '/' + tempFileName
           fs.copyFileSync(file.fd, fileUri) // 同步拷贝
           files.push({
@@ -39,6 +41,11 @@ struct HmUpload {
             type: 'jpg'
           })
         })
+        //输出图片url
+        const urls = await uploadImage(getContext(this), files)
+        AlertDialog.show({
+          message: JSON.stringify(urls)
+        })
         // AlertDialog.show({
         //   message: JSON.stringify(files)
         // })
@@ -48,8 +55,8 @@ struct HmUpload {
           message: error.message
         })
       }
-
     }
+
 
   }
 
