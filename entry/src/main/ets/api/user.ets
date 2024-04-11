@@ -9,9 +9,9 @@ export const login = (data: LoginFormModel) => {
 // 获取用户信息
 export const getUserInfo = () => {
   return Request.get<UserInfoModel>("/users")
-} //todo 修复
+}
 
 // 获取用户任务数据
 export const getUserTaskInfo = (data: UserTaskInfoParamsModel) => {
   return Request.get<UserTaskInfoModel>("/users/taskReport", data)
-} //todo 修复
+}

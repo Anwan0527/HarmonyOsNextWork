@@ -6,9 +6,9 @@ import { TaskDetailInfoModel } from '../models'
 
 export const getTaskList = (params: TaskListParams) => {
   return Request.get<TaskListData>("/tasks/list", params)
-} //todo  修复
+}
 
 
 export const getTaskDetail = (id: string) => {
   return Request.get<TaskDetailInfoModel>(`/tasks/details/${id}`)
-} //todo  我估计也白扯
+}
