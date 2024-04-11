@@ -71,7 +71,7 @@ struct HmList {
     .onStateChange(async value => {
       if (value === RefreshStatus.Refresh) {
         await this.onRefresh()
-        this.refreshIng = false // todo  这里bug 会卡死
+        this.refreshIng = false
         this.loading = false
       }
     })
