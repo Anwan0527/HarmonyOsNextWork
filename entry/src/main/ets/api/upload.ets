@@ -2,7 +2,7 @@ import request from '@ohos.request'
 import { BASE_URL, TOKEN_KEY } from '../constants'
 
 import { Request as RequestClass } from '../utils'
-import http from '@ohos.net.http'
+
 
 class FileParams {
   imageName: string = ""
@@ -39,7 +39,7 @@ export const uploadImage = async (context: Context, files: request.File[]) => {
       const result = await Promise.all<string>(files.map(item => RequestClass.get<string>("/files/imageUrl", {
         imageName: item.filename.slice(0, item.filename.indexOf('.'))
       } as FileParams)))
-
+      
       // resolve(result.map(url => ({ url } as ImageList)))
     })
   } catch (error) {

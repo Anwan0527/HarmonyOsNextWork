@@ -4,6 +4,7 @@ import { CommonRouterParams, ResponseData, TaskDetailInfo, TaskDetailInfoModel }
 
 import http from '@ohos.net.http';
 import { TOKEN_KEY } from '../../constants';
+import { getTaskDetail } from '../../api';
 
 class BaseBuilderClass {
   title: string = ""
@@ -20,27 +21,25 @@ struct TaskDetail {
   @State token: string = ''
 
   async getTaskDetail(id: string) {
-    // this.taskDetailData = await getTaskDetail(id)
-    // ---------- 新代码 -------------
-    const req = http.createHttp()
-    req.request("https://slwl-api.itheima.net/driver/tasks/details/" + id, {
-      method: http.RequestMethod.GET,
-      header: {
-        Authorization: this.token
-      }
-    })
-      .then(res => {
-        const TaskDetailRes = JSON.parse(res.result.toString()) as ResponseData<TaskDetailInfoModel>
-        this.taskDetailData = TaskDetailRes.data as TaskDetailInfoModel
-        // AlertDialog.show({
-        //   message: JSON.stringify(this.taskDetailData)
-        // })
-      })
+    this.taskDetailData = await getTaskDetail(id)
+    // ---------- demo -------------
+    // const req = http.createHttp()
+    // req.request("https://slwl-api.itheima.net/driver/tasks/details/" + id, {
+    //   method: http.RequestMethod.GET,
+    //   header: {
+    //     Authorization: this.token
+    //   }
+    // })
+    //   .then(res => {
+    //     const TaskDetailRes = JSON.parse(res.result.toString()) as ResponseData<TaskDetailInfoModel>
+    //     this.taskDetailData = TaskDetailRes.data as TaskDetailInfoModel
+    //     // AlertDialog.show({
+    //     //   message: JSON.stringify(this.taskDetailData)
+    //     // })
+    //   })
   }
 
   aboutToAppear() {
-    this.token = AppStorage.get(TOKEN_KEY)!
-
     const params = router.getParams() as CommonRouterParams
     this.getTaskDetail(params.id!)
     if (params && params.id) {
