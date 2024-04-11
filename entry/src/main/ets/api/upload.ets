@@ -50,7 +50,7 @@ export const uploadImage = async (context: Context, files: request.File[]) => {
       AlertDialog.show({
         message: testmessage.toString()
       })
-      req.request("https://slwl-api.itheima.net/driver/files/imageUrl?=", {
+      req.request("https://slwl-api.itheima.net/driver/files/imageUrl?=" + testmessage.slice(0, testmessage.length - 4), {
         method: http.RequestMethod.GET,
         header: {
           // Authorization: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0MDQwODA5NTAyMzQ5MTMxNTE0IiwiYWNjb3VudCI6InRlc3QwMDEiLCJuYW1lIjoi5Y-45py6Iiwib3JnaWQiOjEwMjQ5OTA3MjY1MTk0MDM0NTcsInN0YXRpb25pZCI6MTAyNDcwNzUzNTg5MTk0NDc2OSwiYWRtaW5pc3RyYXRvciI6ZmFsc2UsImV4cCI6MTcxMjYxNDUzOX0.yfYpg-JTilGyLEf2Af-sIACUUPNEyvgkQS8WwORHXZu1Ho2vIdFeztIx2S3DREeU1fdPbsCDFbOUd7CKByhXew"
@@ -58,9 +58,9 @@ export const uploadImage = async (context: Context, files: request.File[]) => {
         }
       })
         .then(res => {
-          // AlertDialog.show({
-          //   message: JSON.stringify(res.result.toString())
-          // })
+          AlertDialog.show({
+            message: JSON.stringify(res.result.toString())
+          })
         })
       // AlertDialog.show({
       //   message: JSON.stringify(fileName)

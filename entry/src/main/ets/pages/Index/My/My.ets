@@ -1,78 +1,34 @@
+import promptAction from '@ohos.promptAction'
+import router from '@ohos.router'
 import { getUserInfo, getUserTaskInfo } from '../../../api'
 import { HmCard, HmCardItem } from '../../../components'
-
-import {
-  ResponseData,
-  UserInfo,
-  UserInfoModel,
-  UserTaskInfo,
-  UserTaskInfoModel,
-  UserTaskInfoParamsModel
-} from '../../../models'
-import router from '@ohos.router'
-import { TOKEN_KEY } from '../../../constants'
-import { http } from '@kit.NetworkKit'
-
+import { UserInfoModel, UserInfo, UserTaskInfoModel, UserTaskInfo, UserTaskInfoParamsModel } from '../../../models'
 
 @Preview
 @Component
 struct My {
-  @State token: string = ''
-  @State //获取个人信息
+  @State
   userInfo: UserInfoModel = new UserInfoModel({} as UserInfo)
-  @State //获取任务数据
-  userTaskInfo: UserTaskInfoModel = new UserTaskInfoModel({} as UserTaskInfo)
+  @State
+  useTaskInfo: UserTaskInfoModel = new UserTaskInfoModel({} as UserTaskInfo)
   queryTaskParams: UserTaskInfoParamsModel = new UserTaskInfoParamsModel({
     year: new Date().getFullYear().toString(),
     month: (new Date().getMonth() + 1).toString()
   })
 
   aboutToAppear() {
-    this.token = AppStorage.get(TOKEN_KEY)!
     this.getUserInfo()
     this.getUserTaskInfo()
-    // AlertDialog.show({
-    //   message: JSON.stringify(AppStorage.get(TOKEN_KEY))
-    // })
   }
 
-  async getUserTaskInfo() {
-    // this.userTaskInfo = await getUserTaskInfo(this.queryTaskParams)
-    const req = http.createHttp()
-    req.request("https://slwl-api.itheima.net/driver/users/taskReport?month=" + this.queryTaskParams.month + "&year=" + this.queryTaskParams.year, {
-      method: http.RequestMethod.GET,
-      header: {
-        // Authorization: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0MDQwODA5NTAyMzQ5MTMxNTE0IiwiYWNjb3VudCI6InRlc3QwMDEiLCJuYW1lIjoi5Y-45py6Iiwib3JnaWQiOjEwMjQ5OTA3MjY1MTk0MDM0NTcsInN0YXRpb25pZCI6MTAyNDcwNzUzNTg5MTk0NDc2OSwiYWRtaW5pc3RyYXRvciI6ZmFsc2UsImV4cCI6MTcxMjYxNDUzOX0.yfYpg-JTilGyLEf2Af-sIACUUPNEyvgkQS8WwORHXZu1Ho2vIdFeztIx2S3DREeU1fdPbsCDFbOUd7CKByhXew"
-        Authorization: this.token
-      }
-    })
-      .then(res => {
-        const usertaskinfo = JSON.parse(res.result.toString()) as ResponseData<UserTaskInfoModel>
-        // AlertDialog.show({
-        //   message: JSON.stringify(res.result.toString())
-        // })
-        this.userTaskInfo = usertaskinfo.data as UserTaskInfoModel
-
-      })
-  }
-
+  // 获取用户个人信息
   async getUserInfo() {
-    const req = http.createHttp()
-    req.request("https://slwl-api.itheima.net/driver/users", {
-      method: http.RequestMethod.GET,
-      header: {
-        // Authorization: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0MDQwODA5NTAyMzQ5MTMxNTE0IiwiYWNjb3VudCI6InRlc3QwMDEiLCJuYW1lIjoi5Y-45py6Iiwib3JnaWQiOjEwMjQ5OTA3MjY1MTk0MDM0NTcsInN0YXRpb25pZCI6MTAyNDcwNzUzNTg5MTk0NDc2OSwiYWRtaW5pc3RyYXRvciI6ZmFsc2UsImV4cCI6MTcxMjYxNDUzOX0.yfYpg-JTilGyLEf2Af-sIACUUPNEyvgkQS8WwORHXZu1Ho2vIdFeztIx2S3DREeU1fdPbsCDFbOUd7CKByhXew"
-        Authorization: this.token
-      }
-    })
-      .then(res => {
-        const userinfo = JSON.parse(res.result.toString()) as ResponseData<UserInfoModel>
-        this.userInfo = userinfo.data as UserInfoModel
-        // AlertDialog.show({
-        //   message: JSON.stringify(userinfo)
-        // })
-      })
+    this.userInfo = await getUserInfo()
+  }
 
+  // 获取用户任务数据
+  async getUserTaskInfo() {
+    this.useTaskInfo = await getUserTaskInfo(this.queryTaskParams)
   }
 
   build() {
@@ -84,7 +40,7 @@ struct My {
           .height(67)
           .borderRadius(34.5)
           .backgroundColor($r('app.color.white'))
-        Text(this.userInfo.name || "司机")
+        Text(this.userInfo.name)
           .fontSize(18)
           .fontWeight(600)
           .lineHeight(25)
@@ -122,7 +78,7 @@ struct My {
         Text("- 本月任务 -").fontSize(14).fontColor($r('app.color.text_secondary')).lineHeight(20)
         Row() {
           Column() {
-            Text(this.userTaskInfo.taskAmounts?.toString() || '')
+            Text(this.useTaskInfo.taskAmounts?.toString())
               .fontSize(18)
               .fontColor($r('app.color.text_primary'))
               .lineHeight(25)
@@ -133,7 +89,7 @@ struct My {
           }.justifyContent(FlexAlign.SpaceAround).layoutWeight(1)
 
           Column() {
-            Text(this.userTaskInfo.completedAmounts?.toString() || '')
+            Text(this.useTaskInfo.completedAmounts?.toString())
               .fontSize(18)
               .fontColor($r('app.color.text_primary'))
               .lineHeight(25)
@@ -142,7 +98,7 @@ struct My {
           }.justifyContent(FlexAlign.SpaceAround).layoutWeight(1)
 
           Column() {
-            Text(this.userTaskInfo.transportMileage?.toString() || '')
+            Text(this.useTaskInfo.transportMileage?.toString())
               .fontSize(18)
               .fontColor($r('app.color.text_primary'))
               .lineHeight(25)
@@ -158,12 +114,26 @@ struct My {
       .padding({ top: 13.5, bottom: 13.5 })
       .justifyContent(FlexAlign.SpaceBetween)
 
-      // 信息列表---用HmCard 和HmCardItem 抽取
       HmCard() {
-        HmCardItem({ leftTitle: '车辆信息', rightText: '' })
-        HmCardItem({ leftTitle: '任务设置', rightText: '' })
         HmCardItem({
-          leftTitle: '系统设置', rightText: '', onRightClick: () => {
+          leftTitle: '车辆信息', rightText: '', onRightClick: () => {
+            router.pushUrl({
+              url: 'pages/Car/Car'
+            })
+          }
+        })
+        HmCardItem({
+          leftTitle: '任务数据', rightText: '',
+          onRightClick: () => {
+            router.pushUrl({
+              url: 'pages/UserTask/UserTask'
+            })
+          }
+        })
+        HmCardItem({
+          leftTitle: '系统设置', rightText: '',
+          showBottomBorder: false,
+          onRightClick: () => {
             router.pushUrl({
               url: 'pages/Setting/Setting'
             })
