@@ -12,8 +12,8 @@ struct Login {
   @State showLoading: boolean = false
   @State
   accountForm: LoginFormModel = new LoginFormModel({
-    account: '',
-    password: ''
+    account: 'test001',
+    password: 'test001'
   })
 
   @Styles

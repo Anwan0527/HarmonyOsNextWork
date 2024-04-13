@@ -95,6 +95,10 @@
     {
       "name": "btn_gray",
       "value": "#E6E6E6"
+    },
+    {
+      "name": "upload_panel",
+      "value": "#f2f2f2"
     }
   ]
 }

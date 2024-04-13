@@ -10,6 +10,8 @@ class FileParams {
 }
 
 
+
+
 export const uploadImage = async (context: Context, files: request.File[]) => {
   const config: request.UploadConfig = {
     url: `${BASE_URL}/files/imageUpload`,
